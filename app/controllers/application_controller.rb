@@ -27,6 +27,9 @@ class ApplicationController < ActionController::Base
   end
 
   def square_root_form
+    @num = params.fetch("pillow").to_f
+
+    @square_root_of_num = Math.sqrt(@num)
     render({ :template => "calculation_templates/square_root_form.html.erb" })
   end
 end
