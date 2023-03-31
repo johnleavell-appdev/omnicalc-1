@@ -1,13 +1,19 @@
 class ApplicationController < ActionController::Base
   def blank_square_form
-    render({ :template => "calculation_templates/square_form.html.erb" })
+
+    render({ :template => "forms/square_form.html.erb" })
+  end
+
+  def blank_square_root_form
+    
+    render({ :template => "forms/square_root_form.html.erb" })
   end
 
   def calculate_square
     @num = params.fetch("pillow").to_f
 
     @square_of_num = @num * @num
-    render({ :template => "calculation_templates/square_results.html.erb" })
+    render({ :template => "results/square_results.html.erb" })
   end
 
   def calculate_random
@@ -15,21 +21,22 @@ class ApplicationController < ActionController::Base
     @upper = params.fetch("user_max").to_f
     @result = rand(@lower..@upper)
 
-    render({ :template => "calculation_templates/rand_results.html.erb" })
+    render({ :template => "results/rand_results.html.erb" })
   end
 
   def blank_random_form
-    render({ :template => "calculation_templates/rand_form.html.erb" })
+    render({ :template => "forms/rand_form.html.erb" })
   end
 
   def blank_payment_form
-    render({ :template => "calculation_templates/payment_form.html.erb" })
+    render({ :template => "forms/payment_form.html.erb" })
   end
 
   def square_root_form
-    @num = params.fetch("pillow").to_f
+ 
+    @num1 = params.fetch("square_root").to_f
+    @square_root_of_num = @num1 ** 0.5
 
-    @square_root_of_num = Math.sqrt(@num)
-    render({ :template => "calculation_templates/square_root_form.html.erb" })
+    render({ :template => "forms/square_root_results.html.erb" })
   end
 end
