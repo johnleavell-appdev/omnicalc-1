@@ -36,4 +36,12 @@ class ApplicationController < ActionController::Base
 
     render({ :template => "results/rand_results.html.erb" })
   end
+
+  def calculate_payment
+    @apr = params.fetch("apr").to_f
+    @number_of_years = params.fetch("number_of_years")
+    @principal = params.fetch("principal")
+
+    render({ :template => "results/payment_results.html.erb" })
+  end
 end
