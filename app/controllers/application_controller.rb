@@ -38,10 +38,36 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_payment
+    # Get the input from params hash
     @apr = params.fetch("apr").to_f
-    @number_of_years = params.fetch("number_of_years")
-    @principal = params.fetch("principal")
+    @number_of_years = params.fetch("number_of_years").to_i
+    @principal = params.fetch("principal").to_f
 
+    # Convert APR from string to float and divide by 100 to get percentage
+    @monthly_rate = (@apr / 100) / 12
+
+    # Calculate the number of payments
+    @n = @number_of_years * 12
+
+    # Calculate the monthly payment using the payment formula
+    @payment_numerator = @monthly_rate * @principal
+    @payment_denominator = 1 - (1 + @monthly_rate) ** (-@n)
+    @monthly_payment = @payment_numerator / @payment_denominator
+
+    # Round the monthly payment to two decimal places
+    @monthly_payment = (@monthly_payment * 100).round / 100.0
+
+    # Set the instance variables for the numerator and denominator
+    @numerator = @monthly_payment
+    @denominator = @n
+
+    # Format the monthly payment as currency
+    # Round the monthly payment to two decimal places
+
+    @apr = @apr.to_s(:percentage, precision: 4)
+    @principal = @principal.to_s(:currency, unit: "$")
+    @monthly_payment = @monthly_payment.to_s(:currency, unit: "$")
     render({ :template => "results/payment_results.html.erb" })
   end
 end
+
